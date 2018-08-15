@@ -238,13 +238,15 @@ WHERE PR.ISDELETED = 0
     { id: 'DW_GITLAB_PR-75_9560_169_2832', product: '资源平台', province: '公共' },
     { id: 'DW_GITLAB_PR-75_9562_170_8428', product: '资源平台', province: '公共' },
     { id: 'DW_GITLAB_PR-92_9705_23_1072', product: '传输调度', province: '公共' },
-    { id: 'DW_GITLAB_PR-315_10225_265_307', product: '家客资源', province: '广西',task_id:'17766',type:'devel',story:'3847' },
-    { id: 'DW_GITLAB_PR-314_10226_183_3695', product: '家客资源', province: '广西',task_id:'17766',type:'devel',story:'3847'},
-    { id: 'DW_GITLAB_PR-314_12747_220_6108', product: '家客资源', province: '广西',task_id:'21906',type:'devel',story:'5591'},
-    { id: 'DW_GITLAB_PR-382_13511_147_7995', product: '集客开通', province: '吉林',task_id:'24054',type:'design',story:'6521'},
-    { id: 'DW_GITLAB_PR-222_12020_511_1210', product: '集客开通', province: '福建',task_id:'21179',type:'devel',story:'5540' },
-    { id: 'DW_GITLAB_PR-382_14407_186_8450', product: '移动集团资源', province: '移动集团',task_id:'24402',type:'design',story:'6666' },
-    { id: 'DW_GITLAB_PR-352_15397_39_1305', product: '家客资源', province: '北京',task_id:'24763',type:'devel',story:'6532' },
-    { id: 'DW_GITLAB_PR-615_15072_51_6584', product: 'SDN', province: '公共',task_id:'24992',type:'devel',story:'6899' }]
+    { id: 'DW_GITLAB_PR-315_10225_265_307', product: '家客资源', province: '广西', task_id: '17766', type: 'devel', story: '3847' },
+    { id: 'DW_GITLAB_PR-314_10226_183_3695', product: '家客资源', province: '广西', task_id: '17766', type: 'devel', story: '3847' },
+    { id: 'DW_GITLAB_PR-314_12747_220_6108', product: '家客资源', province: '广西', task_id: '21906', type: 'devel', story: '5591' },
+    { id: 'DW_GITLAB_PR-382_13511_147_7995', product: '集客开通', province: '吉林', task_id: '24054', type: 'design', story: '6521' },
+    { id: 'DW_GITLAB_PR-222_12020_511_1210', product: '集客开通', province: '福建', task_id: '21179', type: 'devel', story: '5540' },
+    { id: 'DW_GITLAB_PR-382_14407_186_8450', product: '移动集团资源', province: '移动集团', task_id: '24402', type: 'design', story: '6666' },
+    { id: 'DW_GITLAB_PR-352_15397_39_1305', product: '家客资源', province: '北京', task_id: '24763', type: 'devel', story: '6532' },
+    { id: 'DW_GITLAB_PR-302_17485_36_4280', product: '网络割接', province: '吉林' },
+    { id: 'DW_GITLAB_PR-304_17729_32_7244', product: '网络割接', province: '内蒙' },
+    { id: 'DW_GITLAB_PR-615_15072_51_6584', product: 'SDN', province: '公共', task_id: '24992', type: 'devel', story: '6899' }]
 
 };
