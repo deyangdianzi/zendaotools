@@ -1575,11 +1575,79 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
   async sprintbbsbatchAction() {
 
     // let months = ['201701', '201702', '201703', '201704', '201705', '201706', '201707', '201708', '201709', '201710', '201711'];
-    let months = ['20180715'];
+    let months = ['20180729','20180812'];
     for (let x of months) {
-      await this.sprintbbsAction();
+      // await this.sprintbbsAction();
+      await this.sprintbbsscoreAction(x);
     }
   }
+
+  /**
+   * 计算某个迭代的得分
+   * @param {*} sprintid '20180422'
+   */
+  async sprintbbsscoreAction(sprintid) {
+    let modelczd = this.model('');
+    let sql1 = 'SELECT defamb,ratioofsprintonline,ratioofreqverify,ratioofcompclose,reqlongunclose,buglongunclose FROM zentao.bi_report_amb_sprintbbs  where level = 4 and sprint = ' + sprintid;
+    let sprintrows = await modelczd.db().query(sql1);
+    let sortdata = {
+      '综合资源平台':1,
+      '综合资源开通':2,
+      '综合资源家客':3,
+      '综合资源创新':4,
+      '综合资源集团':5,
+      '综合资源广东':6
+    };
+    let sprintobj = sprintrows.sort((x,y)=>{
+      return sortdata[x.defamb] - sortdata[y.defamb];
+    });
+    console.log(sprintobj);
+    let excellist = [];
+    sprintobj.forEach(x => {
+      let row1 = {
+        a: x.defamb + '指标',
+        b: x.ratioofsprintonline,
+        c: x.ratioofreqverify,
+        d: x.ratioofcompclose,
+        e: x.reqlongunclose,
+        f: x.buglongunclose,
+        g:'',
+        h:''
+      };
+      let row2 = {
+        a: x.defamb + '得分',
+        b: this.getScore(x.ratioofsprintonline, 0.4, 10, 0.8, 30, 0.95, 35),
+        c: this.getScore(x.ratioofreqverify, 0.4, 10, 0.9, 20, 1, 25),
+        d: this.getScore(x.ratioofcompclose, 0.2, 10, 0.4, 20, 0.5, 30),
+        e: this.getScore(x.reqlongunclose, 20, 10, 10, 20, 5, 25, -1),
+        f: this.getScore(x.buglongunclose, 10, 10, 5, 20, 2, 25, -1)
+      }
+      row2.g = row2.b + row2.c + row2.d + row2.e + row2.f;
+      let money = sortdata[x.defamb]<4?6000:3000;
+      row2.h = money*row2.g/100;
+      excellist.push(row1);
+      excellist.push(row2);
+    });
+    let fileexcel1 = think.UPLOAD_PATH + '/' + sprintid + '迭代发布各团队得分情况.xlsx';
+    let arr1 = await this.exportListToExcel(excellist, fileexcel1);
+    console.log(arr1);
+  }
+
+  getScore(v, l1, s1, l2, s2, l3, s3, plus = 1) {
+    let ret = 0;
+    let vv = v * plus;
+    if (vv < l1 * plus) {
+      ret = 0;
+    } else if (vv >= l1 * plus && vv < l2 * plus) {
+      ret = s1 + (s2 - s1) * (vv - l1 * plus) / (l2 * plus - l1 * plus);
+    } else if (vv >= l2 * plus && vv < l3 * plus) {
+      ret = s2;
+    } else {
+      ret = s3;
+    }
+    return ret;
+  }
+
 
   /**
    * 整理每个迭代周期的关键指标
@@ -2339,9 +2407,9 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
       storyitem.month = thisday;
       for (let j = 0; j < lines.length; j++) {
         let name = excelmapen.get(j);
-        if (name){
+        if (name) {
           storyitem[name] = lines[j];
-          if ((name.substr(-4) == 'date') && (lines[j])) { 
+          if ((name.substr(-4) == 'date') && (lines[j])) {
             let tdate = new Date(1900, 0, lines[j] - 1);
             storyitem[name] = tdate.toLocaleString();
           }
@@ -2350,7 +2418,7 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
       //对每行做一些处理，如果status为空，则status = '用户环节'
       if (storyitem.status) {
         //可以做一些检查 pass
-      }else{
+      } else {
         storyitem.status = '用户环节';
       }
 
@@ -2358,7 +2426,7 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
         storyitem.title = storyitem.title.trim()
       }
       storylists.push(storyitem);
-      await outputmodel.add(storyitem,{},true);
+      await outputmodel.add(storyitem, {}, true);
     }
 
     // let outputmodel = this.model('bi_report_amb_gxstory');
