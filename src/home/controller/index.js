@@ -1575,10 +1575,10 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
   async sprintbbsbatchAction() {
 
     // let months = ['201701', '201702', '201703', '201704', '201705', '201706', '201707', '201708', '201709', '201710', '201711'];
-    let months = ['20180729','20180812'];
+    let months = ['20180812'];
     for (let x of months) {
-      // await this.sprintbbsAction();
-      await this.sprintbbsscoreAction(x);
+      await this.sprintbbsAction();
+      await this.sprintbbsscoreAction();
     }
   }
 
@@ -1587,8 +1587,19 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
    * @param {*} sprintid '20180422'
    */
   async sprintbbsscoreAction(sprintid) {
+    let sprint = '';
+    let modelsk = this.model('', 'mysql3');
+    if (sprintid == null) {
+      let sql = 'SELECT * FROM sk.release where end_time < date_sub(curdate(),interval -14 day) order by num desc LIMIT 3';
+      let sprintobj = await modelsk.db().query(sql);
+      // console.log(JSON.stringify(sprintobj));
+      sprint = sprintobj[0].release_alias;
+    }else{
+      sprint = sprintid
+    }
+
     let modelczd = this.model('');
-    let sql1 = 'SELECT defamb,ratioofsprintonline,ratioofreqverify,ratioofcompclose,reqlongunclose,buglongunclose FROM zentao.bi_report_amb_sprintbbs  where level = 4 and sprint = ' + sprintid;
+    let sql1 = 'SELECT defamb,ratioofsprintonline,ratioofreqverify,ratioofcompclose,reqlongunclose,buglongunclose FROM zentao.bi_report_amb_sprintbbs  where level = 4 and sprint = ' + sprint;
     let sprintrows = await modelczd.db().query(sql1);
     let sortdata = {
       '综合资源平台':1,
