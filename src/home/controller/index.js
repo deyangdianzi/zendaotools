@@ -32,7 +32,7 @@ export default class extends Base {
   async batchdoAction() {
     //先更新每个人当月的工时
     let self = this;
-    let datestr = '2018-5-25';
+    let datestr = '2018-6-25';
     if (this.http.get('begindate')) {
       datestr = this.http.get('begindate');
     };
@@ -817,7 +817,9 @@ export default class extends Base {
     // FROM release_task a,kanban_lane b,product c ,sk.release d 
     // where a.lane_id = b.id and a.product_id = c.id and a.release_id = d.id 
     // and d.release_alias = '20180422' `;
-    let wksql = `select * from zentao.bi_report_amb_bug where status != '已关闭' and province = '广西' union SELECT * FROM zentao.bi_report_amb_bug where status = '已关闭' and closedate >= '2017-12-26' and province = '广西' `;
+    let wksql = `select a.work_date,b.realname as username,a.task_id, a.work_time ,a.task_type 
+    from zentao.dw_worklog_sync a, zentao.zt_user b 
+    where a.work_date >'2018-5-25' and (a.task_type=1 or a.task_type=2 or a.task_type=3 ) and b.account=a.account `;
     // let wksql = ` select * from zentao.bi_report_amb_story where deleted = '正常' and reqcloseflag = '未完成' and province = '广西' union 
     // select * from zentao.bi_report_amb_story where deleted = '正常' and reqcloseflag = '完成' and reqclosedate >='2017-12-26'  and province = '广西' `;
     let data = await model.db().query(wksql);
@@ -829,10 +831,10 @@ export default class extends Base {
     //   }
     // });
 
-    let fileexcel = think.UPLOAD_PATH + '/' + this.getCurrentDay() + '2018广西发布的问题详细情况.xlsx';
+    let fileexcel = think.UPLOAD_PATH + '/' + this.getCurrentDay() + '20180829报工.xlsx';
     // let data = await model.select();
-    // let arr = await this.exportListToExcel(data, fileexcel);
-    let arr = await this.exportDBListToExcel('bi_report_amb_bug', data, fileexcel);
+    let arr = await this.exportListToExcel(data, fileexcel);
+    // let arr = await this.exportDBListToExcel('bi_report_amb_bug', data, fileexcel);
     console.log(arr);
   }
 
@@ -1341,6 +1343,7 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
     };
     let model = this.model('');
     let sql1 = model.parseSql(sql, datestr);
+    console.log(sql1);
     let data = await model.db().query(sql1);
     //调试期间先缓存一下，以免每次都从数据库中取
     // let data = await think.cache('STORYDWOUTPUT', () => {
