@@ -247,6 +247,18 @@ WHERE PR.ISDELETED = 0
     { id: 'DW_GITLAB_PR-352_15397_39_1305', product: '家客资源', province: '北京', task_id: '24763', type: 'devel', story: '6532' },
     { id: 'DW_GITLAB_PR-302_17485_36_4280', product: '网络割接', province: '吉林' },
     { id: 'DW_GITLAB_PR-304_17729_32_7244', product: '网络割接', province: '内蒙' },
-    { id: 'DW_GITLAB_PR-615_15072_51_6584', product: 'SDN', province: '公共', task_id: '24992', type: 'devel', story: '6899' }]
+    { id: 'DW_GITLAB_PR-615_15072_51_6584', product: 'SDN', province: '公共', task_id: '24992', type: 'devel', story: '6899' },
+    { id: 'DW_GITLAB_PR-298_16955_89_298', product: '网络割接', province: '吉林', task_id: '26037', type: 'devel', story: '7443' },
+    { id: 'DW_GITLAB_PR-302_16957_34_3075', product: '网络割接', province: '吉林', task_id: '26037', type: 'devel', story: '7443' },
+    { id: 'DW_GITLAB_PR-679_18994_178_2076', product: '传输调度', province: '广西', task_id: '27249', type: 'devel', story: '8114' },
+    { id: 'DW_GITLAB_PR-74_17757_405_4913', product: '资源平台', province: '公共', task_id: '26241', type: 'devel', story: '6937' },
+    { id: 'DW_GITLAB_PR-827_18916_7_9178', product: '家客资源', province: '湖北' },
+    { id: 'DW_GITLAB_PR-827_18917_8_1591', product: '家客资源', province: '湖北' },
+    { id: 'DW_GITLAB_PR-311_17668_50_1383', product: '网络割接', province: '海南' },
+    { id: 'DW_GITLAB_PR-301_17707_55_368', product: '网络割接', province: '湖北' },
+    { id: 'DW_GITLAB_PR-301_17722_60_4889', product: '网络割接', province: '湖北' },
+    { id: 'DW_GITLAB_PR-304_17727_31_4857', product: '网络割接', province: '内蒙' },
+    { id: 'DW_GITLAB_PR-304_17732_33_6631', product: '网络割接', province: '内蒙' }
+  ]
 
 };
