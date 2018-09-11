@@ -1644,7 +1644,7 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
       excellist.push(row1);
       excellist.push(row2);
     });
-    let fileexcel1 = think.UPLOAD_PATH + '/' + sprintid + '迭代发布各团队得分情况.xlsx';
+    let fileexcel1 = think.UPLOAD_PATH + '/' + sprint + '迭代发布各团队得分情况.xlsx';
     let arr1 = await this.exportListToExcel(excellist, fileexcel1);
     console.log(arr1);
   }
