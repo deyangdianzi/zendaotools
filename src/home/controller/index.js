@@ -32,7 +32,7 @@ export default class extends Base {
   async batchdoAction() {
     //先更新每个人当月的工时
     let self = this;
-    let datestr = '2018-6-25';
+    let datestr = '2018-7-25';
     if (this.http.get('begindate')) {
       datestr = this.http.get('begindate');
     };
@@ -1597,7 +1597,7 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
       let sprintobj = await modelsk.db().query(sql);
       // console.log(JSON.stringify(sprintobj));
       sprint = sprintobj[0].release_alias;
-    }else{
+    } else {
       sprint = sprintid
     }
 
@@ -1607,14 +1607,14 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
     let sql1 = 'SELECT defamb,ratioofsprintonline,ratioofreqverify,ratioofcompclose,reqlongunclose,buglongunclose FROM zentao.bi_report_amb_sprintbbs  where level = 4 and sprint = ' + sprint;
     let sprintrows = await modelczd.db().query(sql1);
     let sortdata = {
-      '综合资源平台':1,
-      '综合资源开通':2,
-      '综合资源家客':3,
-      '综合资源创新':4,
-      '综合资源集团':5,
-      '综合资源广东':6
+      '综合资源平台': 1,
+      '综合资源开通': 2,
+      '综合资源家客': 3,
+      '综合资源创新': 4,
+      '综合资源集团': 5,
+      '综合资源广东': 6
     };
-    let sprintobj = sprintrows.sort((x,y)=>{
+    let sprintobj = sprintrows.sort((x, y) => {
       return sortdata[x.defamb] - sortdata[y.defamb];
     });
     console.log(sprintobj);
@@ -1627,8 +1627,8 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
         d: x.ratioofcompclose,
         e: x.reqlongunclose,
         f: x.buglongunclose,
-        g:'',
-        h:''
+        g: '',
+        h: ''
       };
       let row2 = {
         a: x.defamb + '得分',
@@ -1639,8 +1639,8 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
         f: this.getScore(x.buglongunclose, 10, 10, 5, 20, 2, 25, -1)
       }
       row2.g = row2.b + row2.c + row2.d + row2.e + row2.f;
-      let money = sortdata[x.defamb]<4?6000:3000;
-      row2.h = money*row2.g/100;
+      let money = sortdata[x.defamb] < 4 ? 6000 : 3000;
+      row2.h = money * row2.g / 100;
       excellist.push(row1);
       excellist.push(row2);
     });
@@ -2177,7 +2177,7 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
   async statallbatchAction() {
 
     // let months = ['201701', '201702', '201703', '201704', '201705', '201706', '201707', '201708', '201709', '201710', '201711'];
-    let months = ['201806'];
+    let months = ['201808'];
     for (let x of months) {
       await this.statallbymonthAction(x);
     }
@@ -2257,8 +2257,10 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
     });
 
     dwstat.forEach((x) => {
-      index = this.getitemindex(list, x.product, x.province);
-      list[index].reqtotal += x.total;
+      if (x.product != '二次研发_河南') {
+        index = this.getitemindex(list, x.product, x.province);
+        list[index].reqtotal += x.total;
+      }
     });
 
     wkstat.forEach((x) => {
@@ -2371,7 +2373,7 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
       tableheadmapcn.set(it[1], it[0]);
     };
 
-    let obj = xlsx.parse(think.UPLOAD_PATH + '/gxstory0701.xlsx');
+    let obj = xlsx.parse(think.UPLOAD_PATH + '/gxstory0909.xlsx');
     let excelObj = obj[0].data;
     let excelmapen = new Map();
     let flag = true;
@@ -2389,7 +2391,7 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
 
     let storylists = [];
     // let thisday = this.getCurrentDay();
-    let thisday = '20180701';
+    let thisday = '20180909';
 
     let item = {};
     // item.month = '2018-5-15';
@@ -2415,7 +2417,7 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
 
     let outputmodel = this.model('bi_report_amb_gxstory');
     // console.log(JSON.stringify(storylists));
-    let deleterows = await outputmodel.where({ month: ['=', thisday] }).delete();
+    // let deleterows = await outputmodel.where({ month: ['=', thisday] }).delete();
 
     for (let i = 1; i < excelObj.length; i++) {
       let lines = excelObj[i];

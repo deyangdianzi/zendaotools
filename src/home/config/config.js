@@ -252,6 +252,7 @@ WHERE PR.ISDELETED = 0
     { id: 'DW_GITLAB_PR-302_16957_34_3075', product: '网络割接', province: '吉林', task_id: '26037', type: 'devel', story: '7443' },
     { id: 'DW_GITLAB_PR-679_18994_178_2076', product: '传输调度', province: '广西', task_id: '27249', type: 'devel', story: '8114' },
     { id: 'DW_GITLAB_PR-74_17757_405_4913', product: '资源平台', province: '公共', task_id: '26241', type: 'devel', story: '6937' },
+    { id: 'DW_GITLAB_PR-382_15629_225_7384', product: '集客开通', province: '福建', task_id: '24621', type: 'design', story: '6677' },
     { id: 'DW_GITLAB_PR-827_18916_7_9178', product: '家客资源', province: '湖北' },
     { id: 'DW_GITLAB_PR-827_18917_8_1591', product: '家客资源', province: '湖北' },
     { id: 'DW_GITLAB_PR-311_17668_50_1383', product: '网络割接', province: '海南' },
