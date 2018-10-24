@@ -259,7 +259,8 @@ WHERE PR.ISDELETED = 0
     { id: 'DW_GITLAB_PR-301_17707_55_368', product: '网络割接', province: '湖北' },
     { id: 'DW_GITLAB_PR-301_17722_60_4889', product: '网络割接', province: '湖北' },
     { id: 'DW_GITLAB_PR-304_17727_31_4857', product: '网络割接', province: '内蒙' },
-    { id: 'DW_GITLAB_PR-304_17732_33_6631', product: '网络割接', province: '内蒙' }
+    { id: 'DW_GITLAB_PR-304_17732_33_6631', product: '网络割接', province: '内蒙' },
+    { id: 'DW_GITLAB_PR-679_19056_181_2643', product: '集客开通', province: '广西' }
   ]
 
 };

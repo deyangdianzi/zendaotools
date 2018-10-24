@@ -32,7 +32,7 @@ export default class extends Base {
   async batchdoAction() {
     //先更新每个人当月的工时
     let self = this;
-    let datestr = '2018-7-25';
+    let datestr = '2018-9-25';
     if (this.http.get('begindate')) {
       datestr = this.http.get('begindate');
     };
