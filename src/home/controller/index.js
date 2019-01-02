@@ -32,7 +32,7 @@ export default class extends Base {
   async batchdoAction() {
     //先更新每个人当月的工时
     let self = this;
-    let datestr = '2018-9-25';
+    let datestr = '2018-11-25';
     if (this.http.get('begindate')) {
       datestr = this.http.get('begindate');
     };
@@ -817,24 +817,82 @@ export default class extends Base {
     // FROM release_task a,kanban_lane b,product c ,sk.release d 
     // where a.lane_id = b.id and a.product_id = c.id and a.release_id = d.id 
     // and d.release_alias = '20180422' `;
-    let wksql = `select a.work_date,b.realname as username,a.task_id, a.work_time ,a.task_type 
-    from zentao.dw_worklog_sync a, zentao.zt_user b 
-    where a.work_date >'2018-5-25' and (a.task_type=1 or a.task_type=2 or a.task_type=3 ) and b.account=a.account `;
+    // let wksql = `select a.work_date,b.realname as username,a.task_id, a.work_time ,a.task_type 
+    // from zentao.dw_worklog_sync a, zentao.zt_user b 
+    // where a.work_date >'2018-5-25' and (a.task_type=1 or a.task_type=2 or a.task_type=3 ) and b.account=a.account `;
     // let wksql = ` select * from zentao.bi_report_amb_story where deleted = '正常' and reqcloseflag = '未完成' and province = '广西' union 
     // select * from zentao.bi_report_amb_story where deleted = '正常' and reqcloseflag = '完成' and reqclosedate >='2017-12-26'  and province = '广西' `;
-    let data = await model.db().query(wksql);
-    // data.forEach((x) => {
-    //   if (x.flag == 2) {
-    //     x.flag = '禅道上已取消';
-    //   } else {
-    //     x.flag = ''
-    //   }
-    // });
+    // let wksql = ` select * from zentao.bi_report_amb_worklogtbymonth where month > 201712`
+    // let wksql = ` SELECT defamb,beginyear,endyear, count(*) as allnum FROM zentao.bi_report_amb_story where (endyear = 2018 or endyear = 0) group by defamb,beginyear,endyear `
+    let wksql = ` SELECT defamb,beginyear,endyear, count(*) as allnum FROM zentao.bi_report_amb_story where (beginyear = 2017) group by defamb,beginyear,endyear `
+    // let wksql = ` SELECT defamb,beginyear,endyear, count(*) as allnum FROM zentao.bi_report_amb_bug where (endyear = 2018 or endyear = 0) group by defamb,beginyear,endyear `
+    // let wksql = ` SELECT defamb,beginyear,endyear, count(*) as allnum FROM zentao.bi_report_amb_bug where (beginyear = 2017) group by defamb,beginyear,endyear `
+    let data1 = await model.db().query(wksql);
+    let data = [];
+    let p = 2016;
+    let n = 2017;
+    let no = 2018;
+    let type = '需求';
+    let tempall = {
+      defamb : '综合资源',
+      type : type,
+      year : n,
+      pred : 0,
+      nowd : 0,
+      afterd : 0
+    }
+    data1.forEach((x) => {
+      let aa = data.filter(y=>{
+        return y.defamb == x.defamb
+      })
+      console.log(x);
+      if (aa.length > 0) {
+        console.log(x.beginyear);
+        if (x.beginyear == p) {
+          aa[0].pred += x.allnum;
+          tempall.pred += x.allnum;
+        }
+        if (x.beginyear == n && x.endyear == n) {
+          aa[0].nowd += x.allnum;
+          tempall.nowd += x.allnum;
+        }
+        if (x.beginyear == n && x.endyear == no) {
+          aa[0].afterd += x.allnum;
+          tempall.afterd += x.allnum;
+        }
+      }else{
+        let newo = {
+          defamb : x.defamb,
+          type : type,
+          year : n,
+          pred : 0,
+          nowd : 0,
+          afterd : 0
+        }
+        if (x.beginyear == p) {
+          newo.pred += x.allnum;
+          tempall.pred += x.allnum;
+        }
+        if (x.beginyear == n && x.endyear == n) {
+          newo.nowd += x.allnum;
+          tempall.nowd += x.allnum;
+        }
+        if (x.beginyear == n && x.endyear == no) {
+          newo.afterd += x.allnum;
+          tempall.afterd += x.allnum;
+        }
+        data.push(newo)
+      }
 
-    let fileexcel = think.UPLOAD_PATH + '/' + this.getCurrentDay() + '20180829报工.xlsx';
+    });
+
+    data.push(tempall);
+    console.log(data);
+
+    let fileexcel = think.UPLOAD_PATH + '/' + this.getCurrentDay() + '问题总数.xlsx';
     // let data = await model.select();
     let arr = await this.exportListToExcel(data, fileexcel);
-    // let arr = await this.exportDBListToExcel('bi_report_amb_bug', data, fileexcel);
+    // let arr = await this.exportDBListToExcel('bi_report_amb_worklogtbymonth', data, fileexcel);
     console.log(arr);
   }
 
@@ -1578,7 +1636,7 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
   async sprintbbsbatchAction() {
 
     // let months = ['201701', '201702', '201703', '201704', '201705', '201706', '201707', '201708', '201709', '201710', '201711'];
-    let months = ['20180826'];
+    let months = ['20181230'];
     for (let x of months) {
       await this.sprintbbsAction();
       await this.sprintbbsscoreAction();
@@ -1601,7 +1659,7 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
       sprint = sprintid
     }
 
-    // sprint = '20180826';
+    // sprint = '20181230';
 
     let modelczd = this.model('');
     let sql1 = 'SELECT defamb,ratioofsprintonline,ratioofreqverify,ratioofcompclose,reqlongunclose,buglongunclose FROM zentao.bi_report_amb_sprintbbs  where level = 4 and sprint = ' + sprint;
@@ -1683,8 +1741,8 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
       sprintbefor = sprintobj[2].release_alias;
     }
 
-    // sprint = '20180826';
-    // sprintbefor = '20180729';
+    // sprint = '20181230';
+    // sprintbefor = '20181202';
 
     console.log('开始进行本迭代的指标计算', sprint, sprintbefor);
 
@@ -2177,7 +2235,7 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
   async statallbatchAction() {
 
     // let months = ['201701', '201702', '201703', '201704', '201705', '201706', '201707', '201708', '201709', '201710', '201711'];
-    let months = ['201808'];
+    let months = ['201811'];
     for (let x of months) {
       await this.statallbymonthAction(x);
     }
