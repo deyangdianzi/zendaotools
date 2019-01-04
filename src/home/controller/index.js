@@ -1651,7 +1651,7 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
     let sprint = '';
     let modelsk = this.model('', 'mysql3');
     if (sprintid == null) {
-      let sql = 'SELECT * FROM sk.release where end_time < date_sub(curdate(),interval -14 day) order by num desc LIMIT 3';
+      let sql = 'SELECT * FROM sk.release where end_time < date_sub(curdate(),interval -14 day) and num >0 order by year_str desc,num desc LIMIT 3';
       let sprintobj = await modelsk.db().query(sql);
       // console.log(JSON.stringify(sprintobj));
       sprint = sprintobj[0].release_alias;
@@ -1734,7 +1734,7 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
     let modeldoit = this.model('', 'mysql4');
     let modelczd = this.model('');
     if (sprintid == null) {
-      let sql1 = 'SELECT * FROM sk.release where end_time < date_sub(curdate(),interval -14 day) order by num desc LIMIT 3';
+      let sql1 = 'SELECT * FROM sk.release where end_time < date_sub(curdate(),interval -14 day) and num >0 order by year_str desc,num desc LIMIT 3';
       let sprintobj = await modelsk.db().query(sql1);
       // console.log(JSON.stringify(sprintobj));
       sprint = sprintobj[0].release_alias;
