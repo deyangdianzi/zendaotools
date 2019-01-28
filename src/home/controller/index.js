@@ -1659,7 +1659,7 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
       sprint = sprintid
     }
 
-    sprint = '20190127';
+    // sprint = '20190127';
 
     let modelczd = this.model('');
     let sql1 = 'SELECT defamb,ratioofsprintonline,ratioofreqverify,ratioofcompclose,reqlongunclose,buglongunclose FROM zentao.bi_report_amb_sprintbbs  where level = 4 and sprint = ' + sprint;
@@ -1741,8 +1741,8 @@ $lang->story->storyValueLevelList['E']         = 'E:0-2（不含2）';
       sprintbefor = sprintobj[2].release_alias;
     }
 
-    sprint = '20190127';
-    sprintbefor = '20181230';
+    // sprint = '20190127';
+    // sprintbefor = '20181230';
 
     console.log('开始进行本迭代的指标计算', sprint, sprintbefor);
 
